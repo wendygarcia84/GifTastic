@@ -17,6 +17,7 @@
         // My favorite topics
         var topics = ["friends", "classic rock", "disney", "coding memes"];
         var gifArray = [];
+        var imgArray = [];
 
         topics.forEach(element => {
             newBtn = $("<button>").text(element).addClass("topics");
@@ -35,8 +36,9 @@
             }).then(function(response){
                 console.log(response);
                 for (var i = 0 ; i < 10 ; i++){
-                    var newImg = $("<img>").attr({"src": response.data[i].images.fixed_width_still.url, index: i}).addClass("gif-preview");
-                    gifArray.push($("<img>").attr({"src": response.data[i].images.fixed_width.url, index: i}));
+                    imgArray.push({ src: response.data[i].images.fixed_width_still.url });
+                    gifArray.push({ src: response.data[i].images.fixed_width.url });
+                    var newImg = $("<img>").attr({"src": imgArray[i].src, "class": "gif-preview", "index": i});
                     $(".display-area").append(newImg);
                     //$(".display-area").append(gifArray[i]);
                 }   
@@ -46,7 +48,7 @@
 
         $(document).on("click", ".gif-preview", function() {
             console.log("You clicked index: " + $(this).attr("index"));
-            newSrc = gifArray[$(this).attr("index")].attr("src");
+            newSrc = gifArray[$(this).attr("index")].src;
             console.log(newSrc);
             $(this).attr("src", newSrc);
         });
