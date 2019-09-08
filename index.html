@@ -7,18 +7,49 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="wrapper"></div>
+    <div class="wrapper">
+        <div class="buttons"></div>
+        <div class="display-area"></div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
 
         // My favorite topics
-        var topics = ["friends", "classic rock"];
+        var topics = ["friends", "classic rock", "disney", "coding memes"];
+        var gifArray = [];
 
         topics.forEach(element => {
-            newBtn = $("<button>").text(element);
-            $(".wrapper").append(newBtn);
+            newBtn = $("<button>").text(element).addClass("topics");
+            $(".buttons").append(newBtn);
         });
 
+        $(document).on("click", ".topics", function() {
+            var topic = $(this).text();
+            var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=ydet2pYHEjW6TV1lm0CfcqYtpGFmqapL&q=" + topic + "&limit=10&offset=0&rating=PG&lang=en";
+            gifArray = [];
+            
+            $(".display-area").empty();
+            $.ajax({
+                url: queryURL,
+                method: "GET"
+            }).then(function(response){
+                console.log(response);
+                for (var i = 0 ; i < 10 ; i++){
+                    var newImg = $("<img>").attr({"src": response.data[i].images.fixed_width_still.url, index: i}).addClass("gif-preview");
+                    gifArray.push($("<img>").attr({"src": response.data[i].images.fixed_width.url, index: i}));
+                    $(".display-area").append(newImg);
+                    //$(".display-area").append(gifArray[i]);
+                }   
+                console.log(gifArray);
+            });
+        });
+
+        $(document).on("click", ".gif-preview", function() {
+            console.log("You clicked index: " + $(this).attr("index"));
+            newSrc = gifArray[$(this).attr("index")].attr("src");
+            console.log(newSrc);
+            $(this).attr("src", newSrc);
+        });
     </script>
 </body>
 </html>
