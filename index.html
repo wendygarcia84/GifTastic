@@ -14,8 +14,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
 
-        // My favorite topics
+        // Favorite topics
         var topics = ["friends", "classic rock", "disney", "the simpsons"];
+
+        // Empty arrays to store images and gifs sources and isAnimated property
         var gifArray = [];
         var imgArray = [];
 
@@ -25,36 +27,54 @@
         });
 
         $(document).on("click", ".topics", function() {
+            // We get the term of the search from the text of the button
             var topic = $(this).text();
             var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=ydet2pYHEjW6TV1lm0CfcqYtpGFmqapL&q=" + topic + "&limit=10&offset=0&rating=PG&lang=en";
+            
+            // Empty the two arrays from past searches and the display area
             gifArray = [];
             imgArray = [];
             
             $(".display-area").empty();
+
+            // Requesting data from API
             $.ajax({
                 url: queryURL,
                 method: "GET"
             }).then(function(response){
                 console.log(response);
                 for (var i = 0 ; i < 10 ; i++){
-                    imgArray.push({ src: response.data[i].images.fixed_width_still.url, isAnimated: false });
-                    gifArray.push({ src: response.data[i].images.fixed_width.url });
+
+                    // Save the resulting images and gifs URLs into their respective arrays
+                    imgArray.push({ src: response.data[i].images.fixed_width_still.url });
+                    // save the resulting gifs into an array of objects which properties are the src url and a boolean that
+                    // indicates if the animated gif is been displayed or not
+                    gifArray.push({ src: response.data[i].images.fixed_width.url, isAnimated: false });
+
+                    // creating img element saving their class and index for future match with the previously saved arrays
                     var newImg = $("<img>").attr({"src": imgArray[i].src, "class": "gif-preview", "index": i});
                     $(".display-area").append(newImg);
-                    //$(".display-area").append(gifArray[i]);
+    
                 }   
-                console.log(gifArray);
             });
         });
 
         $(document).on("click", ".gif-preview", function() {
-            var neSrc;
+            //Variable to store the link that will be toggled
+            var newSrc;
+
+            //checks the object property of isAnimated on index matching "index" attribute of clicked image
             if (!gifArray[$(this).attr("index")].isAnimated) {
+                // gets source from previously saved array of animated gifs
                 newSrc = gifArray[$(this).attr("index")].src;
             } else {
+                // gets source from previously saved array of still images
                 newSrc = imgArray[$(this).attr("index")].src;
             }
+            // changes property of isAnimated to the opposite value
             gifArray[$(this).attr("index")].isAnimated = !gifArray[$(this).attr("index")].isAnimated;
+
+            // sets the source of clicked image to the one we got from the array
             $(this).attr("src", newSrc);
         });
     </script>
