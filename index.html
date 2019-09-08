@@ -15,10 +15,9 @@
     <script>
 
         // My favorite topics
-        var topics = ["friends", "classic rock", "disney", "coding memes"];
+        var topics = ["friends", "classic rock", "disney", "the simpsons"];
         var gifArray = [];
         var imgArray = [];
-        var isAnimated = false;
 
         topics.forEach(element => {
             newBtn = $("<button>").text(element).addClass("topics");
@@ -29,6 +28,7 @@
             var topic = $(this).text();
             var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=ydet2pYHEjW6TV1lm0CfcqYtpGFmqapL&q=" + topic + "&limit=10&offset=0&rating=PG&lang=en";
             gifArray = [];
+            imgArray = [];
             
             $(".display-area").empty();
             $.ajax({
@@ -37,7 +37,7 @@
             }).then(function(response){
                 console.log(response);
                 for (var i = 0 ; i < 10 ; i++){
-                    imgArray.push({ src: response.data[i].images.fixed_width_still.url });
+                    imgArray.push({ src: response.data[i].images.fixed_width_still.url, isAnimated: false });
                     gifArray.push({ src: response.data[i].images.fixed_width.url });
                     var newImg = $("<img>").attr({"src": imgArray[i].src, "class": "gif-preview", "index": i});
                     $(".display-area").append(newImg);
@@ -49,12 +49,12 @@
 
         $(document).on("click", ".gif-preview", function() {
             var neSrc;
-            if (!isAnimated) {
+            if (!gifArray[$(this).attr("index")].isAnimated) {
                 newSrc = gifArray[$(this).attr("index")].src;
             } else {
                 newSrc = imgArray[$(this).attr("index")].src;
             }
-            isAnimated = !isAnimated;
+            gifArray[$(this).attr("index")].isAnimated = !gifArray[$(this).attr("index")].isAnimated;
             $(this).attr("src", newSrc);
         });
     </script>
