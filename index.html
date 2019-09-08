@@ -18,6 +18,7 @@
         var topics = ["friends", "classic rock", "disney", "coding memes"];
         var gifArray = [];
         var imgArray = [];
+        var isAnimated = false;
 
         topics.forEach(element => {
             newBtn = $("<button>").text(element).addClass("topics");
@@ -47,9 +48,13 @@
         });
 
         $(document).on("click", ".gif-preview", function() {
-            console.log("You clicked index: " + $(this).attr("index"));
-            newSrc = gifArray[$(this).attr("index")].src;
-            console.log(newSrc);
+            var neSrc;
+            if (!isAnimated) {
+                newSrc = gifArray[$(this).attr("index")].src;
+            } else {
+                newSrc = imgArray[$(this).attr("index")].src;
+            }
+            isAnimated = !isAnimated;
             $(this).attr("src", newSrc);
         });
     </script>
