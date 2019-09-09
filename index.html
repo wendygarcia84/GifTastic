@@ -9,8 +9,38 @@
 <body>
     <div class="wrapper">
         <div class="buttons"></div>
-        <div class="display-area"></div>
+        <div class="display-area masonry"></div>
     </div>
+
+    <style>
+        button {
+            margin: 2px;
+        }
+        .buttons {
+            margin: 5px;
+        }
+        .wrapper {
+            padding: 2%;
+            width: 80%;
+            margin-left: 10%;
+        }
+        .masonry { 
+            display: flex;
+            flex-flow: row wrap;
+            margin-left: -8px; /* Adjustment for the gutter */
+            width: 100%;
+            
+        }           
+
+        .masonry-brick {
+            flex: auto;
+            min-width: fit-content;
+            max-width: fit-content;
+            margin: 0 8px 8px 0; /* Some gutter */
+        }
+    
+    </style>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script>
 
@@ -46,14 +76,19 @@
                 for (var i = 0 ; i < 10 ; i++){
 
                     // Save the resulting images and gifs URLs into their respective arrays
-                    imgArray.push({ src: response.data[i].images.fixed_width_still.url });
+                    imgArray.push({ src: response.data[i].images.fixed_height_still.url });
                     // save the resulting gifs into an array of objects which properties are the src url and a boolean that
                     // indicates if the animated gif is been displayed or not
-                    gifArray.push({ src: response.data[i].images.fixed_width.url, isAnimated: false });
+                    gifArray.push({ src: response.data[i].images.fixed_height.url, isAnimated: false });
 
                     // creating img element saving their class and index for future match with the previously saved arrays
+                    var newFigure = $("<figure>").attr("class", "masonry-brick");
                     var newImg = $("<img>").attr({"src": imgArray[i].src, "class": "gif-preview", "index": i});
-                    $(".display-area").append(newImg);
+                    var newFigCaption = $("<figcaption>").html("Rate: " + response.data[i].rating + ".<br> Title: " + response.data[i].title + ".").css("max-width", "200px");
+                    
+                    newFigure.append(newImg, newFigCaption);
+
+                    $(".display-area").append(newFigure);
     
                 }   
             });
