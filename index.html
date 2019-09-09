@@ -4,114 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <title>GifTastic!</title>
 </head>
 <body>
     <div class="wrapper">
+        <h1>GifTastic!</h1>
+        <h3>Add your own topic!</h3>
+        <form id="topic-form">
+                <label for="topic-input">Add your favorite topic HERE!</label>
+                <input type="text" id="topic-input"><br>
+                <!-- Button triggers new movie to be added -->
+                <span class="add-button" id="add-topic" type="submit" value="Add">Add!</span>
+        </form>
         <div class="buttons"></div>
         <div class="display-area masonry"></div>
+        
     </div>
 
-    <style>
-        button {
-            margin: 2px;
-        }
-        .buttons {
-            margin: 5px;
-        }
-        .wrapper {
-            padding: 2%;
-            width: 80%;
-            margin-left: 10%;
-        }
-        .masonry { 
-            display: flex;
-            flex-flow: row wrap;
-            margin-left: -8px; /* Adjustment for the gutter */
-            width: 100%;
-            
-        }           
-
-        .masonry-brick {
-            flex: auto;
-            min-width: fit-content;
-            max-width: fit-content;
-            margin: 0 8px 8px 0; /* Some gutter */
-        }
-    
-    </style>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script>
-
-        // Favorite topics
-        var topics = ["friends", "classic rock", "disney", "the simpsons"];
-
-        // Empty arrays to store images and gifs sources and isAnimated property
-        var gifArray = [];
-        var imgArray = [];
-
-        topics.forEach(element => {
-            newBtn = $("<button>").text(element).addClass("topics");
-            $(".buttons").append(newBtn);
-        });
-
-        $(document).on("click", ".topics", function() {
-            // We get the term of the search from the text of the button
-            var topic = $(this).text();
-            var queryURL = "https://api.giphy.com/v1/gifs/search?api_key=ydet2pYHEjW6TV1lm0CfcqYtpGFmqapL&q=" + topic + "&limit=10&offset=0&rating=PG&lang=en";
-            
-            // Empty the two arrays from past searches and the display area
-            gifArray = [];
-            imgArray = [];
-            
-            $(".display-area").empty();
-
-            // Requesting data from API
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function(response){
-                console.log(response);
-                for (var i = 0 ; i < 10 ; i++){
-
-                    // Save the resulting images and gifs URLs into their respective arrays
-                    imgArray.push({ src: response.data[i].images.fixed_height_still.url });
-                    // save the resulting gifs into an array of objects which properties are the src url and a boolean that
-                    // indicates if the animated gif is been displayed or not
-                    gifArray.push({ src: response.data[i].images.fixed_height.url, isAnimated: false });
-
-                    // creating img element saving their class and index for future match with the previously saved arrays
-                    var newFigure = $("<figure>").attr("class", "masonry-brick");
-                    var newImg = $("<img>").attr({"src": imgArray[i].src, "class": "gif-preview", "index": i});
-                    var newFigCaption = $("<figcaption>").html("Rate: " + response.data[i].rating + ".<br> Title: " + response.data[i].title + ".").css("max-width", "200px");
-                    
-                    newFigure.append(newImg, newFigCaption);
-
-                    $(".display-area").append(newFigure);
-    
-                }   
-            });
-        });
-
-        $(document).on("click", ".gif-preview", function() {
-            //Variable to store the link that will be toggled
-            var newSrc;
-
-            //checks the object property of isAnimated on index matching "index" attribute of clicked image
-            if (!gifArray[$(this).attr("index")].isAnimated) {
-                // gets source from previously saved array of animated gifs
-                newSrc = gifArray[$(this).attr("index")].src;
-            } else {
-                // gets source from previously saved array of still images
-                newSrc = imgArray[$(this).attr("index")].src;
-            }
-            // changes property of isAnimated to the opposite value
-            gifArray[$(this).attr("index")].isAnimated = !gifArray[$(this).attr("index")].isAnimated;
-
-            // sets the source of clicked image to the one we got from the array
-            $(this).attr("src", newSrc);
-        });
-    </script>
+    <script src="assets/javascript/app.js"></script>
 </body>
 </html>

@@ -1,0 +1,56 @@
+body {
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    font-family: "Exo", sans-serif;
+    color: #fff;
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    text-align: center;
+}
+h1 {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 50px;
+}
+button {
+    margin: 2px;
+}
+
+#add-topic {
+    background-color: rgb(238, 137, 54);
+    padding: 8px 15px;
+
+}
+.topics, .add-button {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.wrapper {
+    width: 80%;
+    margin-left: 10%;
+}
+.masonry { 
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    column-count: 6;
+    column-gap: 12em;
+    
+}           
+.masonry-brick {
+    background-color: #eee;
+    display: inline-block;
+    margin: 1em;
+    max-width: 200px;
+    color: black;
+    padding: 4px;
+}
