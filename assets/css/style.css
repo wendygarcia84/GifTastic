@@ -1,7 +1,6 @@
 body {
     margin: 0;
     width: 100%;
-    height: 100vh;
     font-family: "Exo", sans-serif;
     color: #fff;
     background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
@@ -19,7 +18,7 @@ button {
 }
 
 #add-topic {
-    background-color: rgb(238, 137, 54);
+    background-color: rgb(133, 130, 128);
     padding: 8px 15px;
 
 }
@@ -36,14 +35,16 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
+
 .wrapper {
     width: 80%;
     margin-left: 10%;
 }
+
 .masonry { 
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    column-count: 6;
-    column-gap: 12em;
+    column-count: 5;
+    column-gap: 1em;
     
 }           
 .masonry-brick {
@@ -53,4 +54,32 @@ button {
     max-width: 200px;
     color: black;
     padding: 4px;
+}
+@media screen and (max-width: 1350px) {
+    .masonry {
+        column-count: 4;
+        column-gap: 4em;
+       }
+}
+
+@media screen and (max-width: 980px) {
+   .masonry {
+        column-count: 3;
+        column-gap: 3em;
+   }
+}
+
+
+@media screen and (max-width: 768px) {
+    .masonry {
+        column-count: 2;
+        column-gap: 3em;
+    }
+}
+
+@media screen and (max-width: 640px) {
+    .masonry {
+        column-count: 1;
+        column-gap: 1em;
+    }
 }
